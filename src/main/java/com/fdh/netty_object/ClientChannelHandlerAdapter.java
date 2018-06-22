@@ -20,17 +20,15 @@ public class ClientChannelHandlerAdapter extends ChannelHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        User user = new User();
         ctx.writeAndFlush(new User());
         ctx.writeAndFlush(new User());
         ctx.writeAndFlush(new User());
-        //代表数据结束
-        ctx.writeAndFlush(new End());
         /*
          * ChannelFuture表示Channel中异步I/O操作的结果，在netty中所有的I/O操作都是异步的，I/O的调用会直接返回，
          * 可以通过ChannelFuture来获取I/O操作的结果状态。
          */
-        ChannelFuture channelFuture = ctx.writeAndFlush(user);
+        //代表数据结束
+        ChannelFuture channelFuture = ctx.writeAndFlush(new End());
         //捕获异常
         channelFuture.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
         //异常关闭连接
